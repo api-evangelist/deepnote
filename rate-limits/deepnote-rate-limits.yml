@@ -1,0 +1,59 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Deepnote
+providerId: deepnote
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: false
+tags:
+- Data Science
+- Notebooks
+- Analytics
+- Collaboration
+- Data Apps
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  Deepnote's Public API v2 is in preview. Requests authenticate with a workspace
+  API key and the API documents rate-limit error responses, but specific numeric
+  per-key or per-workspace request limits are not published in the API reference.
+  Practical throughput is also bounded by workspace machine availability and the
+  seat-based plan, since runs execute on project machines. Specific values are
+  not reconciled in this artifact.
+notes: >-
+  Verify per-key / per-workspace request limits and any documented Retry-After
+  behavior in the Deepnote API reference during reconciliation; the API is in
+  preview and limits may change. Concurrency of runs is also constrained by the
+  workspace's available machines and plan.
+sources:
+- https://deepnote.com/docs/api-reference
+- https://deepnote.com/docs/deepnote-api
+- https://deepnote.com/pricing
+responseCodes:
+  throttled: 429
+limits:
+- name: API Requests
+  scope: workspace
+  metric: requests
+  limit: see provider documentation
+  notes: Documented rate-limit error responses exist; numeric limits not published while API is in preview.
+- name: Concurrent Runs
+  scope: workspace
+  metric: runs
+  limit: see provider documentation
+  notes: Bounded by available project machines and the workspace's seat-based plan.
+- name: Pagination Page Size
+  scope: request
+  metric: items
+  limit: 100
+  notes: List endpoints (projects, runs) cap pageSize at 100 items per page.
+policies:
+- name: Plan-Bounded Capacity
+  description: Free plan limits editors (3) and projects (5); compute concurrency follows plan and machine availability.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter on 429 responses and poll GET /runs/{runId} rather than tight-looping.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

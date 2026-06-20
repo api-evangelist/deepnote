@@ -1,0 +1,199 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Deepnote Public API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Runs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Run a notebook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.deepnote.com/v2/runs",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"notebookId\": \"<string>\",\n  \"detached\": false,\n  \"runDependentBlocks\": true,\n  \"inputs\": {}\n}"
+            }
+          },
+          "docs": "Starts an execution run for a notebook. Optionally run detached, execute specific blocks, include dependent blocks, and pass input values."
+        },
+        {
+          "info": {
+            "name": "Get a run",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.deepnote.com/v2/runs/{runId}"
+          },
+          "docs": "Returns execution details for a run, including its status and results."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Notebooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a notebook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.deepnote.com/v2/notebooks",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"projectId\": \"<string>\",\n  \"name\": \"<string>\"\n}"
+            }
+          },
+          "docs": "Creates an empty notebook inside the project."
+        },
+        {
+          "info": {
+            "name": "Get a notebook",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.deepnote.com/v2/notebooks/{notebookId}"
+          },
+          "docs": "Retrieve notebook details."
+        },
+        {
+          "info": {
+            "name": "Delete a notebook",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.deepnote.com/v2/notebooks/{notebookId}"
+          },
+          "docs": "Remove a notebook."
+        },
+        {
+          "info": {
+            "name": "List notebook runs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.deepnote.com/v2/notebooks/{notebookId}/runs"
+          },
+          "docs": "Paginated list of historical runs for a notebook."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Projects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List projects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.deepnote.com/v2/projects"
+          },
+          "docs": "Paginated list of projects. Supports pageSize, pageToken, and nameContains."
+        },
+        {
+          "info": {
+            "name": "Create a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.deepnote.com/v2/projects",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"name\": \"<string>\",\n  \"projectType\": \"standard\"\n}"
+            }
+          },
+          "docs": "Create a project."
+        },
+        {
+          "info": {
+            "name": "Get a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.deepnote.com/v2/projects/{projectId}"
+          },
+          "docs": "Individual project details."
+        },
+        {
+          "info": {
+            "name": "Delete a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.deepnote.com/v2/projects/{projectId}"
+          },
+          "docs": "Delete a project."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Me",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get caller identity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.deepnote.com/v2/me"
+          },
+          "docs": "Returns the calling API key, the user that created it, the workspace it belongs to, and the caller's access level."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Execute (v1)",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute a notebook (legacy v1)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.deepnote.com/v1/projects/{project_id}/notebooks/{notebook_id}/execute"
+          },
+          "docs": "Triggers execution of an existing notebook. Starts the project machine if offline; no effect if already running."
+        }
+      ]
+    }
+  ]
+}

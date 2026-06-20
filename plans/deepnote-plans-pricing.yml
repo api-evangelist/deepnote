@@ -1,0 +1,167 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Deepnote
+providerId: deepnote
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: true
+tags:
+- Data Science
+- Notebooks
+- Analytics
+- Collaboration
+- Data Apps
+- Plans
+description: >-
+  Deepnote is priced per editor (seat). The Free plan supports up to 3 editors
+  and 5 projects on basic machines. The Team plan is $39 per editor per month
+  ($31.20 per editor per month billed annually) with unlimited editors, projects,
+  viewers, and notebooks, plus bundled monthly AI / CPU / GPU credits. Enterprise
+  is custom-contracted. The Public API is available to workspaces and is governed
+  by these seat-based plans rather than separate API pricing.
+notes: >-
+  Per-editor prices and bundled credit amounts are taken from the Deepnote
+  pricing page and are subject to change; verify on the pricing page during
+  reconciliation. Compute (CPU/GPU) and AI usage beyond bundled credits is
+  metered separately.
+sources:
+- https://deepnote.com/pricing
+- https://deepnote.com/docs
+plans:
+- id: deepnote-free
+  name: Free
+  type: free
+  description: >-
+    Free forever for small teams; up to 3 editors and 5 projects on basic
+    machines with limited AI and short revision history.
+  entries:
+  - label: Editors
+    name: editors
+    type: limit
+    metric: editors
+    limit: 3
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0
+    userMultiplied: false
+  - label: Projects
+    name: projects
+    type: limit
+    metric: projects
+    limit: 5
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0
+    userMultiplied: false
+  - label: Basic Machine
+    name: basic_machine
+    type: limit
+    metric: machine
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included (5 GB RAM, 2 vCPU)
+    userMultiplied: false
+  elements:
+  - name: Notebooks
+  - name: Limited Deepnote AI
+  - name: 7-day revision history
+- id: deepnote-team
+  name: Team
+  type: subscription
+  description: >-
+    $39 per editor / month ($31.20 per editor / month billed annually).
+    Unlimited editors, projects, viewers, and notebooks, with premium
+    integrations, background and scheduled execution, and bundled monthly
+    AI / CPU / GPU credits.
+  entries:
+  - label: Per Editor (monthly)
+    name: editor_monthly
+    type: flat
+    metric: editors
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $39 per editor / month
+    userMultiplied: true
+  - label: Per Editor (annual)
+    name: editor_annual
+    type: flat
+    metric: editors
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $31.20 per editor / month billed annually
+    userMultiplied: true
+  - label: Bundled AI Credits
+    name: ai_credits
+    type: included
+    metric: credits
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $39 of AI credits per month
+    userMultiplied: false
+  - label: Bundled CPU
+    name: cpu_credits
+    type: included
+    metric: credits
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $280 of CPU per month
+    userMultiplied: false
+  - label: Bundled GPU
+    name: gpu_credits
+    type: included
+    metric: credits
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $50 of GPU per month
+    userMultiplied: false
+  elements:
+  - name: Unlimited viewers & notebooks
+  - name: Premium integrations
+  - name: Background execution
+  - name: Scheduled notebooks
+  - name: 30-day revision history
+  - name: Public API access
+- id: deepnote-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Custom-contracted plan with everything in Team plus single-tenancy,
+    permission groups, SSO and directory sync, audit logs, volume machine
+    discounts, and dedicated support. Contact Deepnote sales.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Custom contract & invoice
+  - name: Priority support
+  - name: Dedicated success manager
+  - name: Permission groups
+  - name: SSO & directory sync
+  - name: Single-tenancy
+  - name: Volume machine discounts
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

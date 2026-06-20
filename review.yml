@@ -1,0 +1,77 @@
+aid: deepnote
+name: Deepnote
+review:
+  question: Does Deepnote expose a documented public WebSocket or streaming (SSE) API?
+  answer: false
+  date: '2026-06-20'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    Deepnote's Public API v2 (preview) is request/response REST over HTTPS.
+    Notebook execution is asynchronous but is modeled as start-then-poll: POST
+    /runs returns a runId and status, and clients poll GET /runs/{runId} for
+    completion. The API also documents "Sessions" as long-lived interactive
+    sessions for running notebooks and blocks, but no public WebSocket (wss://)
+    or HTTP Server-Sent Events (SSE) streaming transport is documented for them
+    in the API reference. No AsyncAPI document was authored because no documented
+    event-driven or streaming surface exists.
+findings:
+  summary: |
+    Deepnote does not publish a documented public WebSocket or SSE streaming
+    API. The Public API v2 (preview) under https://api.deepnote.com/v2 exposes
+    only REST (HTTPS) endpoints authenticated with a workspace API key sent as a
+    Bearer token. Asynchronous notebook execution is handled by creating a run
+    (POST /runs) and polling its status (GET /runs/{runId}); there is no
+    push/streaming delivery of run output documented. A legacy v1 execute
+    endpoint triggers a notebook's machine. Notebooks are also embeddable as
+    data apps via shareable URLs, which is a publishing surface rather than an
+    API.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.deepnote.com/v2
+      documented: true
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.deepnote.com/v1
+      note: Legacy notebook execution trigger endpoint.
+      documented: true
+    - protocol: SSE
+      scheme: https
+      documented: false
+      note: No Server-Sent Events streaming transport is documented; run results are retrieved by polling GET /runs/{runId}.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No public WebSocket endpoint is documented in the Deepnote API reference as of the review date.
+  endpointsConfirmedRest:
+    - POST   https://api.deepnote.com/v2/runs
+    - GET    https://api.deepnote.com/v2/runs/{runId}
+    - POST   https://api.deepnote.com/v2/notebooks
+    - GET    https://api.deepnote.com/v2/notebooks/{notebookId}
+    - DELETE https://api.deepnote.com/v2/notebooks/{notebookId}
+    - POST   https://api.deepnote.com/v2/notebooks/{notebookId}/reorder-blocks
+    - GET    https://api.deepnote.com/v2/notebooks/{notebookId}/runs
+    - GET    https://api.deepnote.com/v2/projects
+    - POST   https://api.deepnote.com/v2/projects
+    - GET    https://api.deepnote.com/v2/projects/{projectId}
+    - DELETE https://api.deepnote.com/v2/projects/{projectId}
+    - GET    https://api.deepnote.com/v2/me
+    - POST   https://api.deepnote.com/v1/projects/{project_id}/notebooks/{notebook_id}/execute
+sources:
+  - url: https://deepnote.com/docs/deepnote-api
+    type: Documentation
+    note: Describes programmatic notebook execution and API-key Bearer auth; references the v1 execute endpoint.
+  - url: https://deepnote.com/docs/api-reference
+    type: APIReference
+    note: Public API v2 (preview) base URL https://api.deepnote.com/v2; all documented endpoints are HTTPS REST.
+  - url: https://deepnote.com/docs/api-reference/runs
+    type: APIReference
+    note: Runs endpoints are POST /runs (start) and GET /runs/{runId} (poll); no streaming delivery.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket or SSE streaming protocol surface exists. Asynchronous notebook
+    execution is delivered through a poll-based REST pattern (create run, then
+    GET run status), so no AsyncAPI document was authored.

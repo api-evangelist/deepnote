@@ -1,0 +1,94 @@
+aid: deepnote
+url: https://raw.githubusercontent.com/api-evangelist/deepnote/refs/heads/main/apis.yml
+name: Deepnote
+kind: company
+description: Deepnote is a collaborative data-science notebook and analytics/app platform.
+  Its Public API v2 (preview) lets you programmatically run notebooks, poll execution
+  runs, and manage projects, notebooks, files, and integrations, with notebooks also
+  embeddable as data apps. Authentication is a workspace API key sent as a Bearer token.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Data Science
+- Notebooks
+- Analytics
+- Collaboration
+- Data Apps
+created: '2026-06-20'
+modified: '2026-06-20'
+specificationVersion: '0.19'
+apis:
+- aid: deepnote:execution-api
+  name: Deepnote Execution API (Notebooks/Projects)
+  tags:
+  - Execution
+  - Runs
+  - Notebooks
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://deepnote.com/docs/deepnote-api
+  baseURL: https://api.deepnote.com/v2
+  properties:
+  - url: https://deepnote.com/docs/deepnote-api
+    type: Documentation
+  - url: https://deepnote.com/docs/api-reference
+    type: APIReference
+  - url: openapi/deepnote-openapi.yml
+    type: OpenAPI
+  - url: collections/deepnote.postman_collection.json
+    type: PostmanCollection
+  description: Programmatically run an existing notebook and poll its execution run.
+    POST /runs starts a run (optionally detached, with selected blocks, dependent blocks,
+    and input values); GET /runs/{runId} returns run status and results. Legacy
+    v1 execute endpoint triggers a notebook's machine. Auth is a workspace API key
+    as a Bearer token.
+- aid: deepnote:projects-api
+  name: Deepnote Projects API
+  tags:
+  - Projects
+  - Notebooks
+  - Management
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://deepnote.com/docs/api-reference
+  baseURL: https://api.deepnote.com/v2
+  properties:
+  - url: https://deepnote.com/docs/api-reference
+    type: APIReference
+  - url: openapi/deepnote-openapi.yml
+    type: OpenAPI
+  - url: collections/deepnote.postman_collection.json
+    type: PostmanCollection
+  description: List, create, get, and delete projects, plus create/get/delete notebooks
+    within a project, list a notebook's historical runs, and introspect the calling
+    API key, user, workspace, and access level via /me.
+- aid: deepnote:embed-api
+  name: Deepnote Embed
+  tags:
+  - Embed
+  - Data Apps
+  - Sharing
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://deepnote.com/docs
+  baseURL: https://deepnote.com
+  properties:
+  - url: https://deepnote.com/docs
+    type: Documentation
+  description: Publish and embed Deepnote notebooks and data apps in external sites
+    and dashboards via shareable embed/app URLs. This is a publishing/embedding
+    surface rather than a JSON REST API.
+common:
+- type: GitHubOrganization
+  url: https://github.com/deepnote
+- type: LinkedIn
+  url: https://www.linkedin.com/company/deepnote
+- type: Website
+  url: https://deepnote.com
+- type: Documentation
+  url: https://deepnote.com/docs
+- type: Plans
+  url: plans/deepnote-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/deepnote-rate-limits.yml
+- type: FinOps
+  url: finops/deepnote-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

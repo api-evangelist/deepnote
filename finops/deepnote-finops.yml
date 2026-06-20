@@ -1,0 +1,106 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Deepnote
+providerId: deepnote
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: true
+tags:
+- Data Science
+- Notebooks
+- Analytics
+- Collaboration
+- Data Apps
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Deepnote spend. Deepnote bills primarily per editor seat
+  (Team $39/editor/month, $31.20 annual; Free up to 3 editors; Enterprise
+  custom). The Team plan bundles monthly AI ($39), CPU ($280), and GPU ($50)
+  credits; consumption beyond bundled credits and larger machines is metered.
+  The Public API consumes the same compute (project machines) when running
+  notebooks, so API-driven runs draw on the workspace's compute budget.
+notes: >-
+  Per-editor prices and bundled credit amounts are subject to change; verify
+  against the Deepnote pricing page during reconciliation. Metered compute and
+  AI rates beyond bundled credits are workspace-specific.
+sources:
+- https://deepnote.com/pricing
+- https://deepnote.com/docs
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Deepnote
+serviceCategory: Analytics and Data Science
+billingModel:
+  pricingCategory: Seat-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+  - Adjustment
+focusColumns:
+  ServiceName: Deepnote
+  ServiceCategory: Analytics and Data Science
+  ProviderName: Deepnote
+  PublisherName: Deepnote
+  InvoiceIssuerName: Deepnote
+  BillingCurrency: USD
+  ChargeCategory: Purchase
+  PricingCategory: Seat-Based
+meters:
+- name: editor_seats
+  description: Editor seats billed per editor per month (Team plan).
+  unit: seats
+  aggregation: sum
+  dimensions:
+  - workspace
+  - plan
+- name: ai_credits
+  description: AI usage drawn against bundled monthly AI credits, then metered.
+  unit: credits
+  aggregation: sum
+  dimensions:
+  - workspace
+  - model
+- name: cpu_compute
+  description: CPU machine time drawn against bundled monthly CPU credits, then metered.
+  unit: machine_hours
+  aggregation: sum
+  dimensions:
+  - workspace
+  - project
+- name: gpu_compute
+  description: GPU machine time drawn against bundled monthly GPU credits, then metered.
+  unit: machine_hours
+  aggregation: sum
+  dimensions:
+  - workspace
+  - project
+- name: notebook_runs
+  description: Notebook executions, including API-triggered runs, consuming project machine time.
+  unit: runs
+  aggregation: sum
+  dimensions:
+  - workspace
+  - project
+  - notebook
+principles:
+- name: Visibility
+  description: Track editor seat counts and per-workspace AI/CPU/GPU consumption against bundled credits.
+- name: Allocation
+  description: Map projects and API keys to teams/workloads; attribute compute and runs to cost centers.
+- name: Optimization
+  description: Right-size machines, schedule heavy runs off-peak, lean on bundled credits before metered usage, and remove idle editor seats.
+- name: Accountability
+  description: Assign owners per workspace/project; review seat and compute spend monthly against budget.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

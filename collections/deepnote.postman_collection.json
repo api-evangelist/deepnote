@@ -1,0 +1,482 @@
+{
+  "item": [
+    {
+      "name": "Runs",
+      "description": {
+        "content": "Notebook executions.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "name": "Run a notebook",
+          "request": {
+            "name": "Run a notebook",
+            "description": {
+              "content": "Starts an execution run for a notebook. Optionally run detached, execute specific blocks, include dependent blocks, and pass input values.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "runs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notebookId\": \"<string>\",\n  \"detached\": false,\n  \"runDependentBlocks\": true,\n  \"inputs\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get a run",
+          "request": {
+            "name": "Get a run",
+            "description": {
+              "content": "Returns execution details for a run, including its status and results.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "runs",
+                ":runId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "snapshotDelivery",
+                  "value": "inline",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "runId",
+                  "value": "<uuid>"
+                }
+              ]
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Notebooks",
+      "description": {
+        "content": "Notebooks, their blocks, runs, and schedules.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "name": "Create a notebook",
+          "request": {
+            "name": "Create a notebook",
+            "description": {
+              "content": "Creates an empty notebook inside the project.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "notebooks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": \"<string>\",\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get a notebook",
+          "request": {
+            "name": "Get a notebook",
+            "description": {},
+            "url": {
+              "path": [
+                "v2",
+                "notebooks",
+                ":notebookId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "notebookId",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "name": "Delete a notebook",
+          "request": {
+            "name": "Delete a notebook",
+            "description": {},
+            "url": {
+              "path": [
+                "v2",
+                "notebooks",
+                ":notebookId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "notebookId",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "header": [],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "name": "List notebook runs",
+          "request": {
+            "name": "List notebook runs",
+            "description": {
+              "content": "Paginated list of historical runs for a notebook.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "notebooks",
+                ":notebookId",
+                "runs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "pageSize",
+                  "value": "100",
+                  "disabled": true
+                },
+                {
+                  "key": "pageToken",
+                  "value": "<string>",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "notebookId",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "description": {
+        "content": "Projects and their contents.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "name": "List projects",
+          "request": {
+            "name": "List projects",
+            "description": {},
+            "url": {
+              "path": [
+                "v2",
+                "projects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "pageSize",
+                  "value": "100",
+                  "disabled": true
+                },
+                {
+                  "key": "pageToken",
+                  "value": "<string>",
+                  "disabled": true
+                },
+                {
+                  "key": "nameContains",
+                  "value": "<string>",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "name": "Create a project",
+          "request": {
+            "name": "Create a project",
+            "description": {},
+            "url": {
+              "path": [
+                "v2",
+                "projects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"projectType\": \"standard\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get a project",
+          "request": {
+            "name": "Get a project",
+            "description": {},
+            "url": {
+              "path": [
+                "v2",
+                "projects",
+                ":projectId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "projectId",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "name": "Delete a project",
+          "request": {
+            "name": "Delete a project",
+            "description": {},
+            "url": {
+              "path": [
+                "v2",
+                "projects",
+                ":projectId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "projectId",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "header": [],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Me",
+      "description": {
+        "content": "Information about the calling API key and its workspace.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "name": "Get caller identity",
+          "request": {
+            "name": "Get caller identity",
+            "description": {
+              "content": "Returns the calling API key, the user that created it, the workspace it belongs to, and the caller's access level.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "me"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Execute (v1)",
+      "description": {
+        "content": "Legacy endpoint to trigger execution of an existing notebook.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "name": "Execute a notebook (legacy v1)",
+          "request": {
+            "name": "Execute a notebook (legacy v1)",
+            "description": {
+              "content": "Triggers execution of an existing notebook. Starts the project machine if offline; no effect if already running.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "projects",
+                ":projectId",
+                "notebooks",
+                ":notebookId",
+                "execute"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "projectId",
+                  "value": "<string>"
+                },
+                {
+                  "key": "notebookId",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "header": [],
+            "method": "POST",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.deepnote.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b3d1f2a4-7c6e-4a9b-9f2d-1a2b3c4d5e6f",
+    "name": "Deepnote Public API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Deepnote Public API v2 (preview) for running notebooks and managing projects, notebooks, and runs. Auth: workspace API key as Bearer token.\n\nContact Support:\n Name: Deepnote Support\n URL: https://deepnote.com/docs",
+      "type": "text/plain"
+    }
+  }
+}
