@@ -75,6 +75,12 @@ apis:
     and dashboards via shareable embed/app URLs. This is a publishing/embedding
     surface rather than a JSON REST API.
 common:
+- type: VulnerabilityDisclosure
+  url: security/deepnote-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/deepnote-domain-security.yml
+- type: Authentication
+  url: authentication/deepnote-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/deepnote
 - type: LinkedIn
@@ -89,6 +95,8 @@ common:
   url: rate-limits/deepnote-rate-limits.yml
 - type: FinOps
   url: finops/deepnote-finops.yml
+- url: https://deepnote.com/blog
+  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
