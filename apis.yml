@@ -75,6 +75,8 @@ apis:
     and dashboards via shareable embed/app URLs. This is a publishing/embedding
     surface rather than a JSON REST API.
 common:
+- type: AgenticAccess
+  url: agentic-access/deepnote-agentic-access.yml
 - type: VulnerabilityDisclosure
   url: security/deepnote-vulnerability-disclosure.yml
 - type: DomainSecurity
