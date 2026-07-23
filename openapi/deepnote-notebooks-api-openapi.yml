@@ -1,0 +1,193 @@
+openapi: 3.0.1
+info:
+  title: Deepnote Public Execute (v1) Execute (v1) Notebooks API
+  description: Deepnote Public API v2 (preview) for running notebooks programmatically and managing projects, notebooks, and execution runs. Notebooks can be executed via POST /runs and their status polled via GET /runs/{runId}. Endpoints and schemas may change while the API is in preview. A legacy v1 execute endpoint is also documented for triggering a notebook's machine.
+  termsOfService: https://deepnote.com/terms
+  contact:
+    name: Deepnote Support
+    url: https://deepnote.com/docs
+  version: '2.0'
+servers:
+- url: https://api.deepnote.com/v2
+  description: Deepnote Public API v2 (preview)
+- url: https://api.deepnote.com/v1
+  description: Deepnote API v1 (legacy notebook execution trigger)
+security:
+- bearerAuth: []
+tags:
+- name: Notebooks
+  description: Notebooks, their blocks, runs, and schedules.
+paths:
+  /notebooks:
+    post:
+      operationId: createNotebook
+      tags:
+      - Notebooks
+      summary: Create a notebook
+      description: Creates an empty notebook inside the project.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              properties:
+                projectId:
+                  type: string
+                name:
+                  type: string
+      responses:
+        '200':
+          description: Created notebook
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotebookEnvelope'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /notebooks/{notebookId}:
+    get:
+      operationId: getNotebook
+      tags:
+      - Notebooks
+      summary: Get a notebook
+      parameters:
+      - name: notebookId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Notebook details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotebookEnvelope'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteNotebook
+      tags:
+      - Notebooks
+      summary: Delete a notebook
+      parameters:
+      - name: notebookId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Notebook deleted
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /notebooks/{notebookId}/runs:
+    get:
+      operationId: listNotebookRuns
+      tags:
+      - Notebooks
+      summary: List notebook runs
+      description: Paginated list of historical runs for a notebook.
+      parameters:
+      - name: notebookId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+      - name: pageToken
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Paginated runs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  runs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Run'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+components:
+  schemas:
+    Run:
+      type: object
+      properties:
+        runId:
+          type: string
+          format: uuid
+        notebookId:
+          type: string
+        status:
+          $ref: '#/components/schemas/RunStatus'
+        createdAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+    NotebookEnvelope:
+      type: object
+      properties:
+        notebook:
+          $ref: '#/components/schemas/Notebook'
+    Notebook:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        projectId:
+          type: string
+    RunStatus:
+      type: string
+      enum:
+      - pending
+      - running
+      - success
+      - error
+      - internal_error
+      - stopped
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+    Pagination:
+      type: object
+      properties:
+        nextPageToken:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Workspace API key created under Settings & members > Security > API keys, sent as Authorization: Bearer <token>.'

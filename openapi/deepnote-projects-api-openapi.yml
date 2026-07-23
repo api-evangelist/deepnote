@@ -1,0 +1,162 @@
+openapi: 3.0.1
+info:
+  title: Deepnote Public Execute (v1) Execute (v1) Projects API
+  description: Deepnote Public API v2 (preview) for running notebooks programmatically and managing projects, notebooks, and execution runs. Notebooks can be executed via POST /runs and their status polled via GET /runs/{runId}. Endpoints and schemas may change while the API is in preview. A legacy v1 execute endpoint is also documented for triggering a notebook's machine.
+  termsOfService: https://deepnote.com/terms
+  contact:
+    name: Deepnote Support
+    url: https://deepnote.com/docs
+  version: '2.0'
+servers:
+- url: https://api.deepnote.com/v2
+  description: Deepnote Public API v2 (preview)
+- url: https://api.deepnote.com/v1
+  description: Deepnote API v1 (legacy notebook execution trigger)
+security:
+- bearerAuth: []
+tags:
+- name: Projects
+  description: Projects and their contents.
+paths:
+  /projects:
+    get:
+      operationId: listProjects
+      tags:
+      - Projects
+      summary: List projects
+      parameters:
+      - name: pageSize
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+      - name: pageToken
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: nameContains
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Paginated list of projects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  projects:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+    post:
+      operationId: createProject
+      tags:
+      - Projects
+      summary: Create a project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                folderId:
+                  type: string
+                projectType:
+                  type: string
+                  enum:
+                  - standard
+                  - agent
+      responses:
+        '200':
+          description: Created project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+  /projects/{projectId}:
+    get:
+      operationId: getProject
+      tags:
+      - Projects
+      summary: Get a project
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Project details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteProject
+      tags:
+      - Projects
+      summary: Delete a project
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Project deleted
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        projectType:
+          type: string
+          enum:
+          - standard
+          - agent
+        folderId:
+          type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+    Pagination:
+      type: object
+      properties:
+        nextPageToken:
+          type: string
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Workspace API key created under Settings & members > Security > API keys, sent as Authorization: Bearer <token>.'

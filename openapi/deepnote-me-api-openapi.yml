@@ -1,0 +1,75 @@
+openapi: 3.0.1
+info:
+  title: Deepnote Public Execute (v1) Execute (v1) Me API
+  description: Deepnote Public API v2 (preview) for running notebooks programmatically and managing projects, notebooks, and execution runs. Notebooks can be executed via POST /runs and their status polled via GET /runs/{runId}. Endpoints and schemas may change while the API is in preview. A legacy v1 execute endpoint is also documented for triggering a notebook's machine.
+  termsOfService: https://deepnote.com/terms
+  contact:
+    name: Deepnote Support
+    url: https://deepnote.com/docs
+  version: '2.0'
+servers:
+- url: https://api.deepnote.com/v2
+  description: Deepnote Public API v2 (preview)
+- url: https://api.deepnote.com/v1
+  description: Deepnote API v1 (legacy notebook execution trigger)
+security:
+- bearerAuth: []
+tags:
+- name: Me
+  description: Information about the calling API key and its workspace.
+paths:
+  /me:
+    get:
+      operationId: getMe
+      tags:
+      - Me
+      summary: Get caller identity
+      description: Returns the calling API key, the user that created it, the workspace it belongs to, and the caller's access level in that workspace.
+      responses:
+        '200':
+          description: Caller identity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Me'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+    Me:
+      type: object
+      properties:
+        apiKey:
+          type: object
+          additionalProperties: true
+        user:
+          type: object
+          additionalProperties: true
+        workspace:
+          type: object
+          additionalProperties: true
+        accessLevel:
+          type: string
+          enum:
+          - guest
+          - restricted_user
+          - viewer
+          - editor
+          - admin
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Workspace API key created under Settings & members > Security > API keys, sent as Authorization: Bearer <token>.'
