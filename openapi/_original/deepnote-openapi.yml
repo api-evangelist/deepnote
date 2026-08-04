@@ -1,0 +1,503 @@
+openapi: 3.0.1
+info:
+  title: Deepnote Public API
+  description: >-
+    Deepnote Public API v2 (preview) for running notebooks programmatically and
+    managing projects, notebooks, and execution runs. Notebooks can be executed
+    via POST /runs and their status polled via GET /runs/{runId}. Endpoints and
+    schemas may change while the API is in preview. A legacy v1 execute endpoint
+    is also documented for triggering a notebook's machine.
+  termsOfService: https://deepnote.com/terms
+  contact:
+    name: Deepnote Support
+    url: https://deepnote.com/docs
+  version: '2.0'
+servers:
+  - url: https://api.deepnote.com/v2
+    description: Deepnote Public API v2 (preview)
+  - url: https://api.deepnote.com/v1
+    description: Deepnote API v1 (legacy notebook execution trigger)
+security:
+  - bearerAuth: []
+tags:
+  - name: Runs
+    description: Notebook executions.
+  - name: Notebooks
+    description: Notebooks, their blocks, runs, and schedules.
+  - name: Projects
+    description: Projects and their contents.
+  - name: Me
+    description: Information about the calling API key and its workspace.
+  - name: Execute (v1)
+    description: Legacy endpoint to trigger execution of an existing notebook.
+paths:
+  /runs:
+    post:
+      operationId: createRun
+      tags:
+        - Runs
+      summary: Run a notebook
+      description: >-
+        Starts an execution run for a notebook. Optionally run the notebook as a
+        detached run, execute only specific blocks, include dependent downstream
+        blocks, and pass input values for input blocks.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRunRequest'
+      responses:
+        '202':
+          description: Run started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunStarted'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /runs/{runId}:
+    get:
+      operationId: getRun
+      tags:
+        - Runs
+      summary: Get a run
+      description: Returns execution details for a run, including its status and results.
+      parameters:
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: snapshotDelivery
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - inline
+              - downloadUrl
+          description: How notebook execution snapshots are delivered.
+      responses:
+        '200':
+          description: Run details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunEnvelope'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /notebooks:
+    post:
+      operationId: createNotebook
+      tags:
+        - Notebooks
+      summary: Create a notebook
+      description: Creates an empty notebook inside the project.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - projectId
+              properties:
+                projectId:
+                  type: string
+                name:
+                  type: string
+      responses:
+        '200':
+          description: Created notebook
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotebookEnvelope'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /notebooks/{notebookId}:
+    get:
+      operationId: getNotebook
+      tags:
+        - Notebooks
+      summary: Get a notebook
+      parameters:
+        - name: notebookId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Notebook details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotebookEnvelope'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteNotebook
+      tags:
+        - Notebooks
+      summary: Delete a notebook
+      parameters:
+        - name: notebookId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Notebook deleted
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /notebooks/{notebookId}/runs:
+    get:
+      operationId: listNotebookRuns
+      tags:
+        - Notebooks
+      summary: List notebook runs
+      description: Paginated list of historical runs for a notebook.
+      parameters:
+        - name: notebookId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            maximum: 100
+        - name: pageToken
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Paginated runs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  runs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Run'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+  /projects:
+    get:
+      operationId: listProjects
+      tags:
+        - Projects
+      summary: List projects
+      parameters:
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            maximum: 100
+        - name: pageToken
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: nameContains
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Paginated list of projects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  projects:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+    post:
+      operationId: createProject
+      tags:
+        - Projects
+      summary: Create a project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                folderId:
+                  type: string
+                projectType:
+                  type: string
+                  enum:
+                    - standard
+                    - agent
+      responses:
+        '200':
+          description: Created project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+  /projects/{projectId}:
+    get:
+      operationId: getProject
+      tags:
+        - Projects
+      summary: Get a project
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Project details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteProject
+      tags:
+        - Projects
+      summary: Delete a project
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Project deleted
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /me:
+    get:
+      operationId: getMe
+      tags:
+        - Me
+      summary: Get caller identity
+      description: >-
+        Returns the calling API key, the user that created it, the workspace it
+        belongs to, and the caller's access level in that workspace.
+      responses:
+        '200':
+          description: Caller identity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Me'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /projects/{projectId}/notebooks/{notebookId}/execute:
+    servers:
+      - url: https://api.deepnote.com/v1
+    post:
+      operationId: executeNotebookV1
+      tags:
+        - Execute (v1)
+      summary: Execute a notebook (legacy v1)
+      description: >-
+        Triggers execution of an existing notebook. If the project's machine is
+        offline, this starts the machine. If the notebook is already running,
+        triggering this endpoint has no effect.
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: notebookId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Execution triggered
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        Workspace API key created under Settings & members > Security > API keys,
+        sent as Authorization: Bearer <token>.
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    CreateRunRequest:
+      type: object
+      required:
+        - notebookId
+      properties:
+        notebookId:
+          type: string
+          description: ID of the notebook to run.
+        detached:
+          type: boolean
+          description: Execute as a detached run.
+        detachedRunStorageMode:
+          type: string
+          enum:
+            - read_write
+            - readonly
+        blockIds:
+          type: array
+          items:
+            type: string
+          description: Specific blocks to execute.
+        runDependentBlocks:
+          type: boolean
+          description: Include dependent downstream blocks.
+        inputs:
+          type: object
+          additionalProperties: true
+          description: Input values for input blocks.
+    RunStarted:
+      type: object
+      properties:
+        runId:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/RunStatus'
+        createdAt:
+          type: string
+          format: date-time
+    RunStatus:
+      type: string
+      enum:
+        - pending
+        - running
+        - success
+        - error
+        - internal_error
+        - stopped
+    Run:
+      type: object
+      properties:
+        runId:
+          type: string
+          format: uuid
+        notebookId:
+          type: string
+        status:
+          $ref: '#/components/schemas/RunStatus'
+        createdAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+    RunEnvelope:
+      type: object
+      properties:
+        run:
+          $ref: '#/components/schemas/Run'
+    Notebook:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        projectId:
+          type: string
+    NotebookEnvelope:
+      type: object
+      properties:
+        notebook:
+          $ref: '#/components/schemas/Notebook'
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        projectType:
+          type: string
+          enum:
+            - standard
+            - agent
+        folderId:
+          type: string
+    Me:
+      type: object
+      properties:
+        apiKey:
+          type: object
+          additionalProperties: true
+        user:
+          type: object
+          additionalProperties: true
+        workspace:
+          type: object
+          additionalProperties: true
+        accessLevel:
+          type: string
+          enum:
+            - guest
+            - restricted_user
+            - viewer
+            - editor
+            - admin
+    Pagination:
+      type: object
+      properties:
+        nextPageToken:
+          type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string

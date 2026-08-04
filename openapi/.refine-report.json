@@ -1,0 +1,22 @@
+{
+  "provider": "deepnote",
+  "sources": [
+    "deepnote-execute-v1-api-openapi.yml",
+    "deepnote-me-api-openapi.yml",
+    "deepnote-notebooks-api-openapi.yml",
+    "deepnote-projects-api-openapi.yml",
+    "deepnote-runs-api-openapi.yml"
+  ],
+  "outputs": [
+    "deepnote-execute-v1-api-openapi.yml",
+    "deepnote-me-api-openapi.yml",
+    "deepnote-notebooks-api-openapi.yml",
+    "deepnote-projects-api-openapi.yml",
+    "deepnote-runs-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
