@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Deepnote Public Execute (v1) Execute (v1) Execute (v1) API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Execute (v1)",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute a notebook (legacy v1)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.deepnote.com/v2/projects/:projectId/notebooks/:notebookId/execute",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "notebookId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Triggers execution of an existing notebook. If the project's machine is offline, this starts the machine. If the notebook is already running, triggering this endpoint has no effect."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
