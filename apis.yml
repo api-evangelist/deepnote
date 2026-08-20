@@ -99,6 +99,8 @@ apis:
   humanURL: https://deepnote.com/docs/deepnote-api
   baseURL: https://api.deepnote.com/v2
   tags:
+  - Project
+  tags_raw:
   - Projects
   properties:
   - type: OpenAPI
