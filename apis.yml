@@ -6,6 +6,18 @@ description: Deepnote is a collaborative data-science notebook and analytics/app
   Its Public API v2 (preview) lets you programmatically run notebooks, poll execution
   runs, and manage projects, notebooks, files, and integrations, with notebooks also
   embeddable as data apps. Authentication is a workspace API key sent as a Bearer token.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
