@@ -1,0 +1,29 @@
+# Front Door AI Index — deepnote — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: deepnote
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: deepnote.com
+  final_host: deepnote.com
+  ownership: own
+  owner: deepnote
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 6
+  host_score: 6
+  density: 3.76
+  words: 1596
+  tiers:
+    agentic: 1
+    core: 4
+    model: 1
+  ambiguous: 7
+  top_terms:
+    agent: 7
+    AI: 2
+    ML: 2
+    Llama: 1
+    MCP: 1

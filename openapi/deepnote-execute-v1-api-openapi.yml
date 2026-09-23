@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Deepnote Public Execute (v1) Execute (v1) Execute (v1) API
+  title: Deepnote Public Execute (v1) API
   description: Deepnote Public API v2 (preview) for running notebooks programmatically and managing projects, notebooks, and execution runs. Notebooks can be executed via POST /runs and their status polled via GET /runs/{runId}. Endpoints and schemas may change while the API is in preview. A legacy v1 execute endpoint is also documented for triggering a notebook's machine.
   termsOfService: https://deepnote.com/terms
   contact:
@@ -44,12 +44,6 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  schemas:
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
   responses:
     Unauthorized:
       description: Missing or invalid API key
@@ -57,6 +51,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

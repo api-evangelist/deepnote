@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Deepnote Public Execute (v1) Execute (v1) Projects API
+  title: Deepnote Public Projects API
   description: Deepnote Public API v2 (preview) for running notebooks programmatically and managing projects, notebooks, and execution runs. Notebooks can be executed via POST /runs and their status polled via GET /runs/{runId}. Endpoints and schemas may change while the API is in preview. A legacy v1 execute endpoint is also documented for triggering a notebook's machine.
   termsOfService: https://deepnote.com/terms
   contact:
@@ -124,6 +124,16 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    Pagination:
+      type: object
+      properties:
+        nextPageToken:
+          type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
     Project:
       type: object
       properties:
@@ -137,16 +147,6 @@ components:
           - standard
           - agent
         folderId:
-          type: string
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-    Pagination:
-      type: object
-      properties:
-        nextPageToken:
           type: string
   responses:
     NotFound:
