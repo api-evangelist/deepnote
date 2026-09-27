@@ -43,11 +43,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
     Me:
       type: object
       properties:
@@ -68,6 +63,11 @@ components:
           - viewer
           - editor
           - admin
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

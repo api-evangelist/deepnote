@@ -123,7 +123,30 @@ paths:
                   pagination:
                     $ref: '#/components/schemas/Pagination'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    NotebookEnvelope:
+      type: object
+      properties:
+        notebook:
+          $ref: '#/components/schemas/Notebook'
+    Pagination:
+      type: object
+      properties:
+        nextPageToken:
+          type: string
     Run:
       type: object
       properties:
@@ -140,14 +163,10 @@ components:
         finishedAt:
           type: string
           format: date-time
-    Notebook:
+    Error:
       type: object
       properties:
-        id:
-          type: string
-        name:
-          type: string
-        projectId:
+        message:
           type: string
     RunStatus:
       type: string
@@ -158,34 +177,15 @@ components:
       - error
       - internal_error
       - stopped
-    NotebookEnvelope:
+    Notebook:
       type: object
       properties:
-        notebook:
-          $ref: '#/components/schemas/Notebook'
-    Pagination:
-      type: object
-      properties:
-        nextPageToken:
+        id:
           type: string
-    Error:
-      type: object
-      properties:
-        message:
+        name:
           type: string
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+        projectId:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http
