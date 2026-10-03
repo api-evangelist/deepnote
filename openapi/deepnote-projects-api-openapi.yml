@@ -123,18 +123,16 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     Error:
       type: object
       properties:
         message:
+          type: string
+    Pagination:
+      type: object
+      properties:
+        nextPageToken:
           type: string
     Project:
       type: object
@@ -150,11 +148,13 @@ components:
           - agent
         folderId:
           type: string
-    Pagination:
-      type: object
-      properties:
-        nextPageToken:
-          type: string
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

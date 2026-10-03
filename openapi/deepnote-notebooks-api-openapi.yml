@@ -123,30 +123,16 @@ paths:
                   pagination:
                     $ref: '#/components/schemas/Pagination'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    NotebookEnvelope:
-      type: object
-      properties:
-        notebook:
-          $ref: '#/components/schemas/Notebook'
-    Pagination:
-      type: object
-      properties:
-        nextPageToken:
-          type: string
+    RunStatus:
+      type: string
+      enum:
+      - pending
+      - running
+      - success
+      - error
+      - internal_error
+      - stopped
     Run:
       type: object
       properties:
@@ -163,20 +149,6 @@ components:
         finishedAt:
           type: string
           format: date-time
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-    RunStatus:
-      type: string
-      enum:
-      - pending
-      - running
-      - success
-      - error
-      - internal_error
-      - stopped
     Notebook:
       type: object
       properties:
@@ -186,6 +158,34 @@ components:
           type: string
         projectId:
           type: string
+    NotebookEnvelope:
+      type: object
+      properties:
+        notebook:
+          $ref: '#/components/schemas/Notebook'
+    Pagination:
+      type: object
+      properties:
+        nextPageToken:
+          type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
