@@ -78,15 +78,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    RunStatus:
-      type: string
-      enum:
-      - pending
-      - running
-      - success
-      - error
-      - internal_error
-      - stopped
     CreateRunRequest:
       type: object
       required:
@@ -115,6 +106,20 @@ components:
           type: object
           additionalProperties: true
           description: Input values for input blocks.
+    RunStatus:
+      type: string
+      enum:
+      - pending
+      - running
+      - success
+      - error
+      - internal_error
+      - stopped
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
     Run:
       type: object
       properties:
@@ -131,11 +136,6 @@ components:
         finishedAt:
           type: string
           format: date-time
-    RunEnvelope:
-      type: object
-      properties:
-        run:
-          $ref: '#/components/schemas/Run'
     RunStarted:
       type: object
       properties:
@@ -147,14 +147,14 @@ components:
         createdAt:
           type: string
           format: date-time
-    Error:
+    RunEnvelope:
       type: object
       properties:
-        message:
-          type: string
+        run:
+          $ref: '#/components/schemas/Run'
   responses:
-    Unauthorized:
-      description: Missing or invalid API key
+    NotFound:
+      description: Resource not found
       content:
         application/json:
           schema:
@@ -165,8 +165,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
+    Unauthorized:
+      description: Missing or invalid API key
       content:
         application/json:
           schema:

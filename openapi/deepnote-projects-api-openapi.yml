@@ -124,11 +124,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
     Pagination:
       type: object
       properties:
@@ -147,6 +142,11 @@ components:
           - standard
           - agent
         folderId:
+          type: string
+    Error:
+      type: object
+      properties:
+        message:
           type: string
   responses:
     NotFound:
