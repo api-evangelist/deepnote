@@ -143,20 +143,6 @@ components:
       properties:
         notebook:
           $ref: '#/components/schemas/Notebook'
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-    Notebook:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        projectId:
-          type: string
     Run:
       type: object
       properties:
@@ -173,6 +159,20 @@ components:
         finishedAt:
           type: string
           format: date-time
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+    Notebook:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        projectId:
+          type: string
   responses:
     NotFound:
       description: Resource not found

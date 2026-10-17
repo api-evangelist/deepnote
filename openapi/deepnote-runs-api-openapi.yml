@@ -77,7 +77,40 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    RateLimited:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    RunEnvelope:
+      type: object
+      properties:
+        run:
+          $ref: '#/components/schemas/Run'
+    RunStatus:
+      type: string
+      enum:
+      - pending
+      - running
+      - success
+      - error
+      - internal_error
+      - stopped
     CreateRunRequest:
       type: object
       required:
@@ -106,20 +139,17 @@ components:
           type: object
           additionalProperties: true
           description: Input values for input blocks.
-    RunStatus:
-      type: string
-      enum:
-      - pending
-      - running
-      - success
-      - error
-      - internal_error
-      - stopped
-    Error:
+    RunStarted:
       type: object
       properties:
-        message:
+        runId:
           type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/RunStatus'
+        createdAt:
+          type: string
+          format: date-time
     Run:
       type: object
       properties:
@@ -136,41 +166,11 @@ components:
         finishedAt:
           type: string
           format: date-time
-    RunStarted:
+    Error:
       type: object
       properties:
-        runId:
+        message:
           type: string
-          format: uuid
-        status:
-          $ref: '#/components/schemas/RunStatus'
-        createdAt:
-          type: string
-          format: date-time
-    RunEnvelope:
-      type: object
-      properties:
-        run:
-          $ref: '#/components/schemas/Run'
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
