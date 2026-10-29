@@ -1,4 +1,4 @@
-# Deepnote (deepnote)
+# Deepnote
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,92 +66,134 @@
 
 Deepnote is a collaborative data-science notebook and analytics/app platform. Its Public API v2 (preview) lets you programmatically run notebooks, poll execution runs, and manage projects, notebooks, files, and integrations, with notebooks also embeddable as data apps. Authentication is a workspace API key sent as a Bearer token.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/deepnote/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/deepnote/refs/heads/main/apis.yml)
+**Areas:** Data Science · Notebooks · Analytics · Collaboration · Data Apps
 
-## Tags
+## Deepnote on APIs.io
 
-- Data Science
-- Notebooks
-- Analytics
-- Collaboration
-- Data Apps
+Everything profiled for Deepnote is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/deepnote/](https://apis.io/providers/deepnote/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (6)
 
-- **Created:** 2026-06-20
-- **Modified:** 2026-06-20
+- [Deepnote Embed](https://apis.io/apis/deepnote/embed-api/) — Publish and embed Deepnote notebooks and data apps in external sites and dashboards via shareable embed/app URLs. This is a publishing/embedding surface…
+- [Deepnote Execute (v1) API](https://apis.io/apis/deepnote/deepnote-execute-v1-api/) — Legacy endpoint to trigger execution of an existing notebook.
+- [Deepnote Me API](https://apis.io/apis/deepnote/deepnote-me-api/) — Information about the calling API key and its workspace.
+- [Deepnote Notebooks API](https://apis.io/apis/deepnote/deepnote-notebooks-api/) — Notebooks, their blocks, runs, and schedules.
+- [Deepnote Projects API](https://apis.io/apis/deepnote/deepnote-projects-api/) — Projects and their contents.
+- [Deepnote Runs API](https://apis.io/apis/deepnote/deepnote-runs-api/) — Notebook executions.
 
-## APIs
+### Published properties
 
-### Deepnote Execution API (Notebooks/Projects)
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Programmatically run an existing notebook and poll its execution run. POST /runs starts a run (optionally detached, with selected blocks, dependent blocks, and input values); GET /runs/{runId} returns run status and results. Legacy v1 execute endpoint triggers a notebook's machine. Auth is a workspace API key as a Bearer token.
+#### MCP servers (1)
 
-- **Human URL:** [https://deepnote.com/docs/deepnote-api](https://deepnote.com/docs/deepnote-api)
-- **Base URL:** `https://api.deepnote.com/v2`
+Model Context Protocol servers that expose the API to agents.
 
-#### Tags
+- [deepnote](https://apis.io/servers/deepnote/deepnote/)
 
-- Execution
-- Runs
-- Notebooks
+#### Agentic access (1)
 
-#### Properties
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- [Documentation](https://deepnote.com/docs/deepnote-api)
-- [API Reference](https://deepnote.com/docs/api-reference)
-- [OpenAPI](openapi/deepnote-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/deepnote.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/deepnote.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Deepnote Agentic Access](https://apis.io/agentic-access/deepnote/deepnote-agentic-access/)
 
-### Deepnote Projects API
+#### Collections (6)
 
-List, create, get, and delete projects, plus create/get/delete notebooks within a project, list a notebook's historical runs, and introspect the calling API key, user, workspace, and access level via /me.
+Postman and Open Collection request collections.
 
-- **Human URL:** [https://deepnote.com/docs/api-reference](https://deepnote.com/docs/api-reference)
-- **Base URL:** `https://api.deepnote.com/v2`
+- [Deepnote Public API](https://apis.io/collections/deepnote/open-deepnote/)
+- [Deepnote Public Execute (v1) Execute (v1) Execute (v1) API](https://apis.io/collections/deepnote/open-deepnote-execute-v1-api/)
+- [Deepnote Public Execute (v1) Execute (v1) Me API](https://apis.io/collections/deepnote/open-deepnote-me-api/)
+- [Deepnote Public Execute (v1) Execute (v1) Notebooks API](https://apis.io/collections/deepnote/open-deepnote-notebooks-api/)
+- [Deepnote Public Execute (v1) Execute (v1) Projects API](https://apis.io/collections/deepnote/open-deepnote-projects-api/)
+- [Deepnote Public Execute (v1) Execute (v1) Runs API](https://apis.io/collections/deepnote/open-deepnote-runs-api/)
 
-#### Tags
+#### Security (3)
 
-- Projects
-- Notebooks
-- Management
+Authentication, trust centre, and vulnerability disclosure.
 
-#### Properties
+- [Deepnote Authentication](https://apis.io/security/deepnote/deepnote-authentication/)
+- [Deepnote Domain Security](https://apis.io/security/deepnote/deepnote-domain-security/)
+- [Deepnote Vulnerability Disclosure](https://apis.io/security/deepnote/deepnote-vulnerability-disclosure/)
 
-- [API Reference](https://deepnote.com/docs/api-reference)
-- [OpenAPI](openapi/deepnote-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/deepnote.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/deepnote.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Plans and pricing (1)
 
-### Deepnote Embed
+Published plans, tiers and prices.
 
-Publish and embed Deepnote notebooks and data apps in external sites and dashboards via shareable embed/app URLs. This is a publishing/embedding surface rather than a JSON REST API.
+- [Deepnote Plans Pricing](https://apis.io/plans/deepnote/deepnote-plans-pricing/)
 
-- **Human URL:** [https://deepnote.com/docs](https://deepnote.com/docs)
-- **Base URL:** `https://deepnote.com`
+#### Rate limits (1)
 
-#### Tags
+Published request limits.
 
-- Embed
-- Data Apps
-- Sharing
+- [Deepnote Rate Limits](https://apis.io/rate-limits/deepnote/deepnote-rate-limits/)
 
-#### Properties
+#### FinOps (1)
 
-- [Documentation](https://deepnote.com/docs)
+What the API costs to run, by operation.
 
-## Common Properties
+- [Deepnote Finops](https://apis.io/finops/deepnote/deepnote-finops/)
 
-- [GitHub Organization](https://github.com/deepnote)
-- [LinkedIn](https://www.linkedin.com/company/deepnote)
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://deepnote.com)
 - [Documentation](https://deepnote.com/docs)
-- [Plans](plans/deepnote-plans-pricing.yml)
-- [Rate Limits](rate-limits/deepnote-rate-limits.yml)
-- [Fin Ops](finops/deepnote-finops.yml)
+- [Blog](https://deepnote.com/blog)
+- [GitHub](https://github.com/deepnote)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 28.8** — thin · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 60.0 |
+| Contract quality | 49.5 |
+| Contract governance | 0.0 |
+| Operational transparency | 21.1 |
+| Developer ergonomics | 32.1 |
+| Access clarity | 7.9 |
+
+**Agent readiness 43.9** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 17.6** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/deepnote/](https://apis.io/providers/deepnote/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Deepnote: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/deepnote/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
